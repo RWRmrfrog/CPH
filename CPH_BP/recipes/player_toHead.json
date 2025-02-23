@@ -1,0 +1,29 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "cph:player_head"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "group": "itemGroup.name.skull",
+        "pattern": [
+            "#"
+        ],
+        "key": {
+            "#": {
+                "item": "cph:player_head_block"
+            }
+        },
+        "unlock": [
+            {
+                "item": "cph:player_head_block"
+            }
+        ],
+        "result": {
+            "item": "cph:player_head",
+            "count": 1
+        }
+    }
+}

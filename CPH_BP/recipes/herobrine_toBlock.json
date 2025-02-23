@@ -1,0 +1,29 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "cph:herobrine_head_block"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "group": "itemGroup.name.skull",
+        "pattern": [
+            "#"
+        ],
+        "key": {
+            "#": {
+                "item": "cph:herobrine_head"
+            }
+        },
+        "unlock": [
+            {
+                "item": "cph:herobrine_head"
+            }
+        ],
+        "result": {
+            "item": "cph:herobrine_head_block",
+            "count": 1
+        }
+    }
+}

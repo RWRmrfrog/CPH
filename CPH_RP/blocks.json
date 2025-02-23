@@ -1,0 +1,9 @@
+{
+    "format_version": "1.21.40",
+    "cph:player_head_block": {
+        "sound": "stone"
+    },
+    "cph:herobrine_head_block": {
+        "sound": "stone"
+    }
+}

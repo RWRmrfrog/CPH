@@ -1,0 +1,14 @@
+{
+    "num_mip_levels": 4,
+    "padding": 8,
+    "resource_pack_name": "cph_head",
+    "texture_name": "atlas.terrain",
+    "texture_data": {
+        "player_head": {
+            "textures": "textures/blocks/skulls/player"
+        },
+        "herobrine_head": {
+            "textures": "textures/blocks/skulls/Herobrine"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "format_version": "1.14.0",
+    "sound_definitions": {
+        "head.default": {
+            "category": "player",
+            "sounds": [
+                "sounds/skulls/default"
+            ]
+        },
+        "head.rll_studio": {
+            "category": "player",
+            "sounds": [
+                "sounds/skulls/rll_studio"
+            ]
+        },
+        "head.cave1": {
+            "category": "player",
+            "sounds": [
+                "sounds/skulls/cave1"
+            ]
+        }
+    }
+}
