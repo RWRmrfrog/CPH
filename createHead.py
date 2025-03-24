@@ -444,7 +444,8 @@ def update_sound_definitions(sound_name):
     file_name = "CPH_RP/sounds/sound_definitions.json"
     sound_key = f"head.{lower_sound_name}"
     new_sound = {
-        "category": "player",
+        "category": "record",
+        "max_distance" : 48.0,
         "sounds": [f"sounds/skulls/{sound_name}"]
     }
 
@@ -456,8 +457,8 @@ def update_lang_file(head_name):
     lower_head_name = head_name.lower()
 
     # Define the lines to add
-    block_name = f"tile.cph:{lower_head_name}_head_block.name={head_name}'s Head"
-    item_name = f"item.cph:{lower_head_name}_head={head_name}'s Head"
+    block_name = f"tile.cph:{lower_head_name}_head_block.name={head_name} Head"
+    item_name = f"item.cph:{lower_head_name}_head={head_name} Head"
     lines_to_add = [block_name, item_name]
 
     try:
@@ -467,35 +468,48 @@ def update_lang_file(head_name):
     except FileNotFoundError:
         print(f"Error: {file_name} not found.")
 
+def parse_player_data(file_path):
+    players = {}
+    
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = [line.strip() for line in file if line.strip()]
+    
+    i = 0
+    while i < len(lines):
+        player_name = lines[i]
+        player_sound = lines[i+1] if i+1 < len(lines) else "n"
+        player_model = lines[i+2] if i+2 < len(lines) else "n"
+        
+        players[player_name] = {
+            "sound": player_sound if player_sound != "n" else None,
+            "model": player_model if player_model != "n" else None
+        }
+        
+        i += 3
+    
+    return players
+
+
 def main():
-    head_name = input("Name of Head? ")
+    file_path = "HeadsToCreate.txt"
+    player_data = parse_player_data(file_path)
+    
+    for head_name, data in player_data.items():
+        sound_name = data["sound"] if data["sound"] else "default"
+        model_name = data["model"] if data["model"] else "head"
 
-    hasSound = input("Plays Sound? (y/n) ")
+        if data["sound"]:
+            update_sound_definitions(sound_name)
 
-    if hasSound == 'y':
-        sound_name = input("Name of Sound? ")
-    else:
-        sound_name = "default"
-
-    has_model = input("Has a Custom Model? (y/n) ")
-
-    if has_model == 'y':
-        model_name = input("Model Identifier? (input just the name without .geo) ")
-    else:
-        model_name = "head"
-
-    if hasSound == 'y':
-        update_sound_definitions(sound_name)
-
-    update_index_js(head_name, sound_name)
-    create_json_from_template("attachable", head_name, model_name)
-    create_json_from_template("items_rp", head_name)
-    create_json_from_template("items_bp", head_name)
-    create_json_from_template("block", head_name, model_name)
-    update_lang_file(head_name)
-    update_terrain_texture(head_name)
-    update_place_sounds(head_name)
-    createRecipes(head_name)
+        update_index_js(head_name, sound_name)
+        create_json_from_template("attachable", head_name, model_name)
+        create_json_from_template("items_rp", head_name)
+        create_json_from_template("items_bp", head_name)
+        create_json_from_template("block", head_name, model_name)
+        update_lang_file(head_name)
+        update_terrain_texture(head_name)
+        update_place_sounds(head_name)
+        createRecipes(head_name)
 
 if __name__ == "__main__":
     main()

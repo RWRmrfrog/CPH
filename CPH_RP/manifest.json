@@ -10,9 +10,9 @@
         "description": "by RWRmrfrog",
         "uuid": "1fb6c742-2723-438e-9fba-f9dd1ddbe686",
         "version": [
+            1,
             0,
-            0,
-            1
+            0
         ]
     },
     "modules": [
@@ -20,9 +20,9 @@
             "type": "resources",
             "uuid": "a0bca6a0-f286-4e14-ad52-18d5743ca2e1",
             "version": [
+                1,
                 0,
-                0,
-                1
+                0
             ]
         }
     ],
@@ -30,9 +30,9 @@
         {
             "uuid": "3f873bdc-1283-4097-bcf4-0601e599e4a2",
             "version": [
+                1,
                 0,
-                0,
-                1
+                0
             ]
         }
     ]

@@ -10,9 +10,9 @@
         "description": "by RWRmrfrog",
         "uuid": "3f873bdc-1283-4097-bcf4-0601e599e4a2",
         "version": [
+            1,
             0,
-            0,
-            1
+            0
         ]
     },
     "modules": [
@@ -20,9 +20,9 @@
             "type": "data",
             "uuid": "c96e55aa-8410-4772-ab3b-0d9f703132f8",
             "version": [
+                1,
                 0,
-                0,
-                1
+                0
             ]
         },
         {
@@ -31,9 +31,9 @@
             "entry": "scripts/index.js",
             "uuid": "940f72d8-6dfb-4dd6-b0ce-ee7c6f15a352",
             "version": [
+                1,
                 0,
-                0,
-                1
+                0
             ]
         }
     ],
@@ -41,9 +41,9 @@
         {
             "uuid": "1fb6c742-2723-438e-9fba-f9dd1ddbe686",
             "version": [
+                1,
                 0,
-                0,
-                1
+                0
             ]
         },
         {

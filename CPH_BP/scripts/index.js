@@ -76,7 +76,6 @@ world.afterEvents.entityDie.subscribe((event) => {
     Block Rotation
 */
 
-/** @param {number} playerYRotation */
 function getPreciseRotation(playerYRotation) {
     if (playerYRotation < 0) playerYRotation += 360;
     const rotation = Math.round(playerYRotation / 22.5);
@@ -84,7 +83,6 @@ function getPreciseRotation(playerYRotation) {
     return rotation !== 16 ? rotation : 0;
 };
 
-/** @type {import("@minecraft/server").BlockCustomComponent} */
 const RotationBlockComponent = {
     beforeOnPlayerPlace(event) {
         const { player } = event;
@@ -108,7 +106,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
     Noteblock Functionality
 */
 
-//redstone power
+//Redstone power
 world.beforeEvents.worldInitialize.subscribe(eventData =>{eventData.blockComponentRegistry.registerCustomComponent('cph:check_noteblock', {
     onTick(event) { 
     const block = event.block;
