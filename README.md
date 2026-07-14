@@ -18,7 +18,15 @@ Video Showcase: https://www.youtube.com/watch?v=bTtCwAQcXFU
 ### Building from Source
 - Download the source and extract it. 
 - Place your head assets (models, sounds, textures) in the user assets folder. I added template files in the user assets folder to help you get started creating your own heads. Feel free to remove them if you desire.
-- Edit the HeadsToCreate.csv and add the heads you wish to create. <ins>Make sure the name of the head matches the name of the texture, otherwise you'll have to define it in the texture column.</ins> The sound and model column should not be left empty. If you'd like the item name to have a different display name you can chose to do so here! 
+- Edit the HeadsToCreate.csv and add the heads you wish to create.
+- <ins>Before you move on, there are a few guidlines you need to follow.</ins>
+  - Make sure the name of the head block matches the player it belongs to, otherwise that player will not drop their head!
+  - If there are any spaces in the player's name for example "man dude", make sure to replace each of them with an underscore in the head name.
+  - Make sure that the texture file has the same name as the head block, otherwise you'll have to define it in the textures column.
+  - The sound and model column should not be left empty.
+  - If you'd like the item name to have a different display name you can chose to do so here!
+    
+    <img width="471" height="82" alt="Screenshot 2026-07-13 212839" src="https://github.com/user-attachments/assets/287f61fd-f335-4b9e-bf0b-e46b37ddd50a" />
 - Then, run createHeads.py (you're gonna need python).
 
 The script will then generate the RP and BP folders for you to import into Minecraft. Make sure to delete these two folders before running the script again!
