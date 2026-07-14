@@ -3,8 +3,8 @@
     "header": {
         "min_engine_version": [
             1,
-            21,
-            60
+            26,
+            30
         ],
         "name": "Custom Player Heads (CPH)",
         "description": "by RWRmrfrog",

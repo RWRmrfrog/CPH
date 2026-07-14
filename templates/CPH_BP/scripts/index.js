@@ -4,15 +4,11 @@ const blockMap = new Map();
 const chargedCreepers = new Map();
 const halloween = new Date("October 31");
 
-const headArray = [
-    //[item identifier, block identifier, block tag, sound]
-    ["cph:player_head", "cph:player_head_block", "player_head", "head.default"],
-    ["cph:herobrine_head", "cph:herobrine_head_block", "herobrine_head", "head.cave1"]
-];
+const headArray = [];
 
-function runCommand(command) {
+function runCommand(command, dimension) {
     system.run(() => {
-        world.getDimension("overworld").runCommand(command);
+        dimension.runCommand(command);
     });
 }
 
@@ -20,14 +16,11 @@ function runCommand(command) {
     Players Drop Heads
 */
 
-world.beforeEvents.entityRemove.subscribe((event) => {
-    const removedEntity = event.removedEntity;
-
-    if (removedEntity.typeId == "minecraft:creeper" && removedEntity.getComponent('is_charged')) 
-    {
-        chargedCreepers.set(removedEntity.id, true)
+world.beforeEvents.entityRemove.subscribe(({ removedEntity }) => {
+    if (removedEntity.typeId == "minecraft:creeper" && removedEntity.getComponent("minecraft:is_charged")) {
+        chargedCreepers.set(removedEntity.id, true);
     }
-});
+})
 
 world.afterEvents.entityDie.subscribe((event) => {
     const {damageSource, deadEntity} = event;
@@ -98,56 +91,80 @@ const RotationBlockComponent = {
     }
 };
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
-    blockComponentRegistry.registerCustomComponent("cph:rotation_comp", RotationBlockComponent);
+system.beforeEvents.startup.subscribe((initEvent) => {
+    initEvent.blockComponentRegistry.registerCustomComponent("cph:rotation_comp", RotationBlockComponent);
 });
+
 
 /* 
     Noteblock Functionality
 */
 
-//Redstone power
-world.beforeEvents.worldInitialize.subscribe(eventData =>{eventData.blockComponentRegistry.registerCustomComponent('cph:check_noteblock', {
-    onTick(event) { 
-    const block = event.block;
-    const blockBelow = block.below();
-    const currentRedstonePower = blockBelow.getRedstonePower();
-    const { x, y, z } = blockBelow.location
-    const blockKey = `${x}*${y}*${z}`
-    const blockObject = blockMap.get(blockKey) ?? {};
-    const { previousRedstonePower } = blockObject;
+// Redstone power
+system.beforeEvents.startup.subscribe(eventData => {
+    eventData.blockComponentRegistry.registerCustomComponent('cph:check_noteblock', {
+        onTick(event) {
+            const block = event.block;
+            const neighbors = [
+                block.north(),
+                block.south(),
+                block.east(),
+                block.west(),
+                block.below(),
+            ];
 
-    if (blockBelow.typeId == "minecraft:noteblock" && currentRedstonePower > 0 && currentRedstonePower != previousRedstonePower) {
-        const location = blockBelow.location;
-        for (let i = 0; i < headArray.length; i++) {
-            if (block.typeId == headArray[i][1]) {
-                world.playSound(headArray[i][3], location)
-                break;
+            for (const neighbor of neighbors) {
+                if (!neighbor || neighbor.typeId !== "minecraft:noteblock") continue;
+
+                const { x, y, z } = neighbor.location;
+                const blockKey = `${x}*${y}*${z}`;
+                const blockObject = blockMap.get(blockKey) ?? {};
+                const { previousPowered } = blockObject;
+
+                const powerNeighbors = [
+                    neighbor.north(),
+                    neighbor.south(),
+                    neighbor.east(),
+                    neighbor.west(),
+                    neighbor.below(),
+                ];
+                const currentPowered = powerNeighbors.some(n => (n?.getRedstonePower() ?? 0) > 0);
+
+                if (currentPowered && !previousPowered) {
+                    for (let i = 0; i < headArray.length; i++) {
+                        if (block.typeId == headArray[i][1]) {
+                            neighbor.dimension.playSound(headArray[i][3], neighbor.location, { volume: 100.0 });
+                            break;
+                        }
+                    }
+                }
+
+                blockObject.previousPowered = currentPowered;
+                blockMap.set(blockKey, blockObject);
             }
         }
-    }
-    blockObject.previousRedstonePower = currentRedstonePower;
-    blockMap.set(blockKey, blockObject)
-}
-})});
+    })
+});
 
-//Noteblock interaction
-world.afterEvents.playerInteractWithBlock.subscribe((event) => {
-    const { player } = event;
+// Noteblock interaction
+world.afterEvents.playerInteractWithBlock.subscribe((eventData) => {
+    const { player } = eventData;
     if (!player) return;
-    const block = event.block;
-    const blockAbove = block.dimension.getBlock({ x: block.location.x, y: (block.location.y) + 1, z: block.location.z });
 
-    if(!(player.isSneaking && event.beforeItemStack != null))
-    {
-      if (block.typeId == "minecraft:noteblock") {
-          for (let i = 0; i < headArray.length; i++) {
-              if (blockAbove.typeId == headArray[i][1]) {
-                world.playSound(headArray[i][3], block.location) 
-                break;
-              }
-          }
-      }
+    const item = player.getComponent('minecraft:equippable')?.getEquipment('Mainhand');
+
+    if (!(player.isSneaking)) {
+        const block = eventData.block;
+        const dimension = block.dimension;
+        const blockAbove = block.dimension.getBlock({ x: block.location.x, y: (block.location.y) + 1, z: block.location.z });
+        if (block.typeId == "minecraft:noteblock") {
+            for (let i = 0; i < headArray.length; i++) {
+                if (blockAbove.typeId == headArray[i][1]) {
+                    dimension.playSound(headArray[i][3], block.location, { volume: 100.0 });
+                    break;
+                }
+            }
+        }
     }
 });
 
@@ -162,7 +179,7 @@ world.beforeEvents.playerBreakBlock.subscribe((event) => {
         for (let i = 0; i < headArray.length; i++) {
             if (blockAbove.typeId == headArray[i][1]) {
                 const command = `stopsound @a ${headArray[i][3]}`;
-                runCommand(command);
+                runCommand(command, block.dimension);
                 break;
             }
         }
@@ -174,20 +191,9 @@ world.beforeEvents.playerBreakBlock.subscribe((event) => {
         for (let i = 0; i < headArray.length; i++) {
             if (block.typeId == headArray[i][1]) {
                 const command = `stopsound @a ${headArray[i][3]}`;
-                runCommand(command);
+                runCommand(command, block.dimension);
                 break;
             }
         }
-    }
-});
-
-//Stop sound when changing dimensions
-world.afterEvents.playerDimensionChange.subscribe((event) => {
-    const { player } = event;
-    if (!player) return;
-
-    for (let i = 0; i < headArray.length; i++) {
-        const command = `stopsound ${player.name} ${headArray[i][3]}`;
-        runCommand(command);
     }
 });

@@ -1,8 +1,8 @@
 {
-    "format_version": "1.21.60",
+    "format_version": "1.26.0",
     "minecraft:block": {
         "description": {
-            "identifier": "cph:player_head_block",
+            "identifier": "cph:[lower custom name]_head_block",
             "menu_category": {
                 "category": "none",
                 "is_hidden_in_commands": true
@@ -59,7 +59,7 @@
                 ]
             },
             "minecraft:geometry": {
-                "identifier": "geometry.head",
+                "identifier": "geometry.[custom model name]",
                 "bone_visibility": {
                     "up_0": "q.block_state('minecraft:block_face') == 'up' && math.mod(q.block_state('cph:head_rotation'), 4) == 0",
                     "up_22_5": "q.block_state('minecraft:block_face') == 'up' && math.mod(q.block_state('cph:head_rotation'), 4) == 1",
@@ -68,22 +68,29 @@
                     "side": "q.block_state('minecraft:block_face') != 'up'"
                 }
             },
-            "minecraft:custom_components": [
-                "cph:rotation_comp",
-                "cph:check_noteblock"
-            ],
+            "cph:rotation_comp": {},
+            "cph:check_noteblock": {},
+            "minecraft:movable": {
+                "movement_type": "popped"
+            },
+            "minecraft:connection_rule": {
+                "accepts_connections_from": "none"
+            },
             "minecraft:tick": {
-                "interval_range": [10, 20],
+                "interval_range": [
+                    10,
+                    20
+                ],
                 "looping": true
             },
             "minecraft:material_instances": {
                 "*": {
-                    "texture": "player_head",
+                    "texture": "[lower custom name]_head",
                     "ambient_occlusion": false,
                     "render_method": "alpha_test"
                 },
                 "custom_down": {
-                    "texture": "player_head",
+                    "texture": "[lower custom name]_head",
                     "ambient_occlusion": false,
                     "render_method": "alpha_test"
                 },

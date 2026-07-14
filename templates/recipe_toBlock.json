@@ -2,7 +2,7 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "cph:player_head"
+            "identifier": "cph:[lower custom name]_head_block"
         },
         "tags": [
             "crafting_table"
@@ -13,16 +13,16 @@
         ],
         "key": {
             "#": {
-                "item": "cph:player_head_block"
+                "item": "cph:[lower custom name]_head"
             }
         },
         "unlock": [
             {
-                "item": "cph:player_head_block"
+                "item": "cph:[lower custom name]_head"
             }
         ],
         "result": {
-            "item": "cph:player_head",
+            "item": "cph:[lower custom name]_head_block",
             "count": 1
         }
     }

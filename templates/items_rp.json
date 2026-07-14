@@ -2,7 +2,7 @@
     "format_version": "1.10",
     "minecraft:item": {
         "description": {
-            "identifier": "cph:herobrine_head_block",
+            "identifier": "cph:[lower custom name]_head_block",
             "category": "null"
         },
         "components": {

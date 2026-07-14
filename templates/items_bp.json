@@ -2,7 +2,7 @@
     "format_version": "1.21.40",
     "minecraft:item": {
         "description": {
-            "identifier": "cph:player_head",
+            "identifier": "cph:[lower custom name]_head",
             "menu_category": {
                 "category": "items",
                 "group": "itemGroup.name.skull"
@@ -10,7 +10,7 @@
         },
         "components": {
             "minecraft:block_placer": {
-                "block": "cph:player_head_block"
+                "block": "cph:[lower custom name]_head_block"
             },
             "minecraft:max_stack_size": {
                 "value": 1
