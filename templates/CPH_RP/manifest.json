@@ -15,6 +15,7 @@
             0
         ]
     },
+    "capabilities": [ "pbr" ],
     "modules": [
         {
             "type": "resources",
