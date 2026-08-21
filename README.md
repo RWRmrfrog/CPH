@@ -37,3 +37,6 @@ The script will then generate the RP and BP folders for you to import into Minec
 
 - **[Bedrock Addons Community](https://wiki.bedrock.dev/)** - For providing the documentation required to make this addon
 - **[crstalli](https://github.com/crstalli)** - For updating the noteblock functionality in my absence
+
+### AI Disclaimer
+Various AI models were used in order to create the createHead python script 
